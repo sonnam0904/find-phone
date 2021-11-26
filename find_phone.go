@@ -6,7 +6,27 @@ import (
 )
 func GetPhone(s string) []string {
 	var result []string
-	return FindPhone(strings.Split(strings.ReplaceAll(s, ".", " "), " "), 0, result)
+
+	return FindPhone(strings.Split(removeSpecialChar(s), " "), 0, result)
+}
+
+func removeSpecialChar (s string) string {
+	rm := []string{",", ".", "+"}
+	for _, v := range rm {
+		s = strings.ReplaceAll(s, v, " ")
+	}
+	return s
+}
+
+func getPhoneVnValid(s string) bool {
+	for _, v :=range []string{"03", "05", "07", "08", "09"} {
+		if strings.Index(s, v)==0 {
+			// hop le
+			return true
+		}
+	}
+
+	return false
 }
 
 func FindPhone(data []string, from int, result []string) []string {
@@ -24,18 +44,38 @@ func FindPhone(data []string, from int, result []string) []string {
 				num += data[i]
 				//fmt.Println("Day so hien tai dang co: ", num)
 
-				if len(num) == 10 {
-					// stop vi tim dc 10 so de check valid so dien thoại
-					//fmt.Println("---------------------------------!!! MATCH:", num)
-
-					// cap nhat lai milestone hien tai
-					milestone = i
+				if len(num)==10 {
 					// check dau so valid 090, 091 092 .....
+					if getPhoneVnValid(num) {
+						//fmt.Println("---------------------------------!!! MATCH:", num)
 
-					// luu vao mang chua ket qua
-					result = append(result, num)
-					continue
-				} else if len(num)>10 {
+						// cap nhat lai milestone hien tai
+						milestone = i
+
+						// luu vao mang chua ket qua
+						result = append(result, num)
+						continue
+					} else {
+						// dau so khong hop le
+						// tiep tuc tim kiem lai bat dau tu Milestone + 1
+						result = FindPhone(data, milestone+1, result)
+						break
+					}
+				} else if len(num)==11 {
+					// check dau so 84
+					if strings.Index(num, "84")==0 {
+						// dau so la 84, cap nhat lai milestone hien tai
+						milestone = i
+						// luu vao mang chua ket qua
+						result = append(result, num)
+						continue
+					} else {
+						// dau so khong phai la 84
+						// tiep tuc tim kiem lai bat dau tu Milestone + 1
+						result = FindPhone(data, milestone+1, result)
+						break
+					}
+				} else if len(num)>11 {
 					//fmt.Println("Da lay qua 10 so, day khong phai la so dien thoai, reset de kiem lai lai bat dau tu Milestone: ", milestone+1)
 
 					// tiep tuc tim kiem lai bat dau tu Milestone + 1
