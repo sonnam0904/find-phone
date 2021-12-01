@@ -11,7 +11,7 @@ func GetPhone(s string) []string {
 }
 
 func removeSpecialChar (s string) string {
-	rm := []string{",", ".", "+"}
+	rm := []string{",", ".", "+", "\n", "\r", "\t"}
 	for _, v := range rm {
 		s = strings.ReplaceAll(s, v, " ")
 	}
