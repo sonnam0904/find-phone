@@ -11,10 +11,15 @@ func GetPhone(s string) []string {
 }
 
 func removeSpecialChar (s string) string {
-	rm := []string{",", ".", "+", "\n", "\r", "\t"}
-	for _, v := range rm {
-		s = strings.ReplaceAll(s, v, " ")
+	//rm := []string{",", ".", "+", "\n", "\r", "\t"}
+	//for _, v := range rm {
+	//	s = strings.ReplaceAll(s, v, " ")
+	//}
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return s
 	}
+	s = reg.ReplaceAllString(s, " ")
 	return s
 }
 
