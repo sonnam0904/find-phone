@@ -5,7 +5,7 @@ import (
 )
 
 func removeSpecialChar (s string) string {
-	rm := []string{",", ".", "+", "\n", "\r", "\t"}
+	rm := []string{",", "-", ".", "+", "\n", "\r", "\t"}
 	for _, v := range rm {
 		s = strings.ReplaceAll(s, v, " ")
 	}
