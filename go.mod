@@ -1,3 +1,2 @@
-module github.com/sonnam0904/find-phone/v2
-
+module github.com/sonnam0904/find-phone
 go 1.17
