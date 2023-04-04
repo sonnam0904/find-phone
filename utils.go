@@ -20,7 +20,9 @@ func removeSpecialChar (s string) string {
 
 func getPhoneVnValid(s string) bool {
 	var check []string
-	if len(s)==11 {
+	if len(s)==12 {
+		check = []string{"840"}
+	} else if len(s)==11 {
 		check = []string{"843", "845", "847", "848", "849"}
 	} else if len(s)==10 {
 		check = []string{"03", "05", "07", "08", "09"}
