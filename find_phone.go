@@ -25,7 +25,7 @@ func FindPhone(data []string, from int, result []string) []string {
 				num += data[i]
 				//fmt.Println("Day so hien tai dang co: ", num)
 
-				if len(num)==10 || len(num)==11{
+				if len(num)==10 || len(num)==11 || len(num)==12{
 					// check dau so valid 090, 091 092 .....
 					if getPhoneVnValid(num) {
 						//fmt.Println("---------------------------------!!! MATCH:", num)
