@@ -42,7 +42,7 @@ func FindPhone(data []string, from int, result []string) []string {
 						result = FindPhone(data, milestone+1, result)
 						break
 					}
-				} else if len(num)>11 {
+				} else if len(num)>12 {
 					//fmt.Println("Da lay qua 10 so, day khong phai la so dien thoai, reset de kiem lai lai bat dau tu Milestone: ", milestone+1)
 					// tiep tuc tim kiem lai bat dau tu Milestone + 1
 					result = FindPhone(data, milestone+1, result)
