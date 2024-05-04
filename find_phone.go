@@ -3,6 +3,7 @@ package phone
 import (
 	"strconv"
 	"strings"
+	"unicode"
 )
 func GetPhone(s string) []string {
 	var result []string
@@ -19,6 +20,14 @@ func FindPhone(data []string, from int, result []string) []string {
 	for i:=from;i<len(data);i++ {
 		//fmt.Println(i, "\t=>\t", data[i])
 		if data[i] != "" {
+			// Hàm kiểm tra ký tự có phải là ký tự đặc biệt không
+			isSpecial := func(r rune) bool {
+				return !unicode.IsLetter(r) && !unicode.IsNumber(r)
+			}
+
+			// Trim các ký tự đặc biệt ở đầu và cuối chuỗi
+			data[i] = strings.TrimFunc(data[i], isSpecial)
+
 			// check number
 			if _, err := strconv.ParseInt(data[i],10,64); err == nil {
 				//fmt.Println("Tim duoc day so: ----> ", data[i])
