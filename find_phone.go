@@ -5,6 +5,7 @@ import (
 	"strings"
 	"unicode"
 )
+
 func GetPhone(s string) []string {
 	var result []string
 
@@ -17,7 +18,7 @@ func FindPhone(data []string, from int, result []string) []string {
 	milestone := from
 	//fmt.Println("(Milestone Checking: ", milestone, ")")
 
-	for i:=from;i<len(data);i++ {
+	for i := from; i < len(data); i++ {
 		//fmt.Println(i, "\t=>\t", data[i])
 		if data[i] != "" {
 			// Hàm kiểm tra ký tự có phải là ký tự đặc biệt không
@@ -29,12 +30,13 @@ func FindPhone(data []string, from int, result []string) []string {
 			data[i] = strings.TrimFunc(data[i], isSpecial)
 
 			// check number
-			if _, err := strconv.ParseInt(data[i],10,64); err == nil {
+			if _, err := strconv.ParseInt(data[i], 10, 64); err == nil {
 				//fmt.Println("Tim duoc day so: ----> ", data[i])
 				num += data[i]
 				//fmt.Println("Day so hien tai dang co: ", num)
 
-				if len(num)==10 || len(num)==11 || len(num)==12{
+				// Kiểm tra độ dài số điện thoại (tối đa 15 số cho số quốc tế)
+				if len(num) >= 10 && len(num) <= 15 {
 					// check dau so valid 090, 091 092 .....
 					if getPhoneVnValid(num) {
 						//fmt.Println("---------------------------------!!! MATCH:", num)
@@ -51,7 +53,7 @@ func FindPhone(data []string, from int, result []string) []string {
 						result = FindPhone(data, milestone+1, result)
 						break
 					}
-				} else if len(num)>12 {
+				} else if len(num) > 12 {
 					//fmt.Println("Da lay qua 10 so, day khong phai la so dien thoai, reset de kiem lai lai bat dau tu Milestone: ", milestone+1)
 					// tiep tuc tim kiem lai bat dau tu Milestone + 1
 					result = FindPhone(data, milestone+1, result)

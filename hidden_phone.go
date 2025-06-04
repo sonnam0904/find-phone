@@ -18,7 +18,7 @@ func ProcessPhone(data []string, from int, s string) string {
 	milestone := from
 	//fmt.Println("(Milestone Checking: ", milestone, ")")
 	var save []int
-	for i:=from;i<len(data);i++ {
+	for i := from; i < len(data); i++ {
 		//fmt.Println(i, "\t=>\t", data[i])
 		if data[i] != "" {
 			// Hàm kiểm tra ký tự có phải là ký tự đặc biệt không
@@ -28,13 +28,14 @@ func ProcessPhone(data []string, from int, s string) string {
 
 			// Trim các ký tự đặc biệt ở đầu và cuối chuỗi
 			data[i] = strings.TrimFunc(data[i], isSpecial)
-			if _, err := strconv.ParseInt(data[i],10,64); err == nil {
+			if _, err := strconv.ParseInt(data[i], 10, 64); err == nil {
 				//fmt.Println("Tim duoc day so: ----> ", data[i])
 				num += data[i]
 				//fmt.Println("Day so hien tai dang co: ", num)
 
 				save = append(save, i)
-				if len(num)==10 || len(num)==11{
+				// Kiểm tra độ dài số điện thoại (tối đa 15 số cho số quốc tế)
+				if len(num) >= 10 && len(num) <= 15 {
 					// check dau so valid 090, 091 092 .....
 					if getPhoneVnValid(num) {
 
@@ -42,12 +43,12 @@ func ProcessPhone(data []string, from int, s string) string {
 						offsetStart := 0
 						offsetEnd := 0
 
-						for j:=0;j<save[0];j++ {
-							offsetStart += len(data[j])+1
+						for j := 0; j < save[0]; j++ {
+							offsetStart += len(data[j]) + 1
 						}
 						offsetEnd = offsetStart
-						for k:=0;k<len(save);k++ {
-							offsetEnd += len(data[save[k]])+1
+						for k := 0; k < len(save); k++ {
+							offsetEnd += len(data[save[k]]) + 1
 							//fmt.Println("data[save[k]]", data[save[k]])
 							//fmt.Println("offsetEnd", offsetEnd)
 						}
@@ -80,7 +81,7 @@ func ProcessPhone(data []string, from int, s string) string {
 						s = ProcessPhone(data, milestone+1, s)
 						break
 					}
-				} else if len(num)>11 {
+				} else if len(num) > 15 {
 					//fmt.Println("Da lay qua 10 so, day khong phai la so dien thoai, reset de kiem lai lai bat dau tu Milestone: ", milestone+1)
 					// tiep tuc tim kiem lai bat dau tu Milestone + 1
 					s = ProcessPhone(data, milestone+1, s)
